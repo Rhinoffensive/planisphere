@@ -45,6 +45,7 @@ r_1 = 8.0 * unit_cm
 
 # Outer rim width with dates marked
 r_gap = 1.1 * unit_cm
+r_gap = 0 * unit_cm
 
 # Gap between edge of disk and fold in paper
 fold_gap = 0.2 * unit_cm

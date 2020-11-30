@@ -93,8 +93,10 @@ class StarWheel(BaseComponent):
         # Radius of lines between months on date scale
         r_5 = r_1
 
+
         # Radius for writing numeric labels for days of the month
         r_6 = r_1 * 0.4 + r_2 * 0.6
+
 
         # Shade background to month scale
         shading_inner_radius = r_1 * 0.55 + r_2 * 0.45
@@ -227,7 +229,8 @@ class StarWheel(BaseComponent):
                 continue
             p = (-r * cos(ra * unit_deg), -r * sin(ra * unit_deg))
             a = atan2(p[0], p[1])
-            context.text(text=name2, x=p[0], y=p[1], h_align=0, v_align=0, gap=0, rotation=unit_rev / 2 - a)
+            #Star names render text
+            #context.text(text=name2, x=p[0], y=p[1], h_align=0, v_align=0, gap=0, rotation=unit_rev / 2 - a)
 
         # Calendar ring counts clockwise in northern hemisphere; anticlockwise in southern hemisphere
         s = -1 if not is_southern else 1
@@ -245,34 +248,34 @@ class StarWheel(BaseComponent):
             return (d - calendar.julian_day(year=2014, month=3, day=20, hour=16, minute=55, sec=0)) / 365.25 * unit_rev
 
         # Write month names around the date scale
-        context.set_font_size(2.3)
-        context.set_color(theme['date'])
-        for mn, (mlen, name) in enumerate(text[language]['months']):
-            theta = s * theta2014(calendar.julian_day(year=2014, month=mn + 1, day=mlen // 2, hour=12, minute=0, sec=0))
-
-            # We supply circular_text with a negative radius here, as a fudge to orientate the text with bottom-inwards
-            context.circular_text(text=name, centre_x=0, centre_y=0, radius=-(r_1 * 0.65 + r_2 * 0.35),
-                                  azimuth=theta / unit_deg + 180,
-                                  spacing=1, size=1)
+        # context.set_font_size(2.3)
+        # context.set_color(theme['date'])
+        # for mn, (mlen, name) in enumerate(text[language]['months']):
+        #     theta = s * theta2014(calendar.julian_day(year=2014, month=mn + 1, day=mlen // 2, hour=12, minute=0, sec=0))
+        #
+        #     # We supply circular_text with a negative radius here, as a fudge to orientate the text with bottom-inwards
+        #     context.circular_text(text=name, centre_x=0, centre_y=0, radius=-(r_1 * 0.65 + r_2 * 0.35),
+        #                           azimuth=theta / unit_deg + 180,
+        #                           spacing=1, size=1)
 
         # Draw ticks for the days of the month
-        for mn, (mlen, name) in enumerate(text[language]['months']):
-            # Tick marks for each day
-            for d in range(1, mlen + 1):
-                theta = s * theta2014(calendar.julian_day(year=2014, month=mn + 1, day=d, hour=0, minute=0, sec=0))
-
-                # Days of the month which are multiples of 5 get longer ticks
-                R = r_3 if (d % 5) else r_4
-
-                # The last day of each month is drawn as a dividing line between months
-                if d == mlen:
-                    R = r_5
-
-                # Draw line
-                context.begin_path()
-                context.move_to(x=r_2 * cos(theta), y=-r_2 * sin(theta))
-                context.line_to(x=R * cos(theta), y=-R * sin(theta))
-                context.stroke(line_width=1, dotted=False)
+        # for mn, (mlen, name) in enumerate(text[language]['months']):
+        #     # Tick marks for each day
+        #     for d in range(1, mlen + 1):
+        #         theta = s * theta2014(calendar.julian_day(year=2014, month=mn + 1, day=d, hour=0, minute=0, sec=0))
+        #
+        #         # Days of the month which are multiples of 5 get longer ticks
+        #         R = r_3 if (d % 5) else r_4
+        #
+        #         # The last day of each month is drawn as a dividing line between months
+        #         if d == mlen:
+        #             R = r_5
+        #
+        #         # Draw line
+        #         context.begin_path()
+        #         context.move_to(x=r_2 * cos(theta), y=-r_2 * sin(theta))
+        #         context.line_to(x=R * cos(theta), y=-R * sin(theta))
+        #         context.stroke(line_width=1, dotted=False)
 
             # Write numeric labels for the 10th, 20th and last day of each month
             for d in [10, 20, mlen]:
